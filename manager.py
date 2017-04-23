@@ -20,21 +20,21 @@ def init_database():
     db.drop_all()
     db.create_all()
     for i in range(0, 100):
-        db.session.add(User('User ' + str(i), 'a' + str(i)))
-        for j in range(0, 3):
+        db.session.add(User('用户 ' + str(i), 'a' + str(i)))
+        for j in range(0, 10):
             db.session.add(Image(get_image_url(), i + 1))
             for k in range(0, 3):
-                db.session.add(Comment('This is a comment ' + str(k), 1 + 3 * i + j, 1 + i))
+                db.session.add(Comment('小明给你评论了哦  ' + str(k), 1 + 10 * i + j, 1 + i))
     db.session.commit()
 
     #删除操作
-    for i in range(50,100,2):
-        Comment.query.filter_by(id=i+1).delete()
-    for i in range(1,50,2):
-        c=Comment.query.get(i+1)
-        db.session.delete(c)
-
-    db.session.commit()
+    # for i in range(50,100,2):
+    #     Comment.query.filter_by(id=i+1).delete()
+    # for i in range(1,50,2):
+    #     c=Comment.query.get(i+1)
+    #     db.session.delete(c)
+    #
+    # db.session.commit()
 
 
     #更新操作

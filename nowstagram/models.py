@@ -1,11 +1,12 @@
 # _*_ encoding=UTF-8 _*_
 
-from nowstagram import db
+from nowstagram import db, login_manager
 import random
 from datetime import datetime
 
 
 class Comment(db.Model):
+    __table_args__ = {'mysql_collate' : 'utf8_general_ci'}
     id = db.Column(db.Integer,primary_key=True,autoincrement=True)
     content = db.Column(db.String(1024))
     image_id = db.Column(db.Integer,db.ForeignKey('image.id'))
@@ -23,6 +24,7 @@ class Comment(db.Model):
 
 
 class Image(db.Model):
+    __table_args__ = {'mysql_collate': 'utf8_general_ci'}
     id = db.Column(db.Integer,primary_key=True,autoincrement=True)
     url = db.Column(db.String(512))
     user_id = db.Column(db.Integer,db.ForeignKey('user.id'))
@@ -39,16 +41,36 @@ class Image(db.Model):
 
 
 class User(db.Model):
+    __table_args__ = {'mysql_collate': 'utf8_general_ci'}
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     username = db.Column(db.String(80), unique=True)
     password = db.Column(db.String(32))
+    salt = db.Column(db.String(32))
     head_url = db.Column(db.String(256))
     images = db.relationship('Image',backref='user',lazy='dynamic')
 
-    def __init__(self, username, password):
+    def __init__(self, username, password,salt=''):
         self.username = username
         self.password = password
         self.head_url = 'http://images.nowcoder.com/head/' + str(random.randint(0, 1000)) + 'm.png'
+        self.salt = salt
 
     def __repr__(self):
         return '<User %d %s>' % (self.id, self.username)
+
+     #用户的类必须实现这些属性
+    def is_authenticated(self):
+        return True
+
+    def is_active(self):
+        return True
+
+    def is_anonymous(self):
+        return False
+
+    def get_id(self):
+        return self.id
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(user_id)
