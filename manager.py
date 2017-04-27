@@ -20,7 +20,7 @@ def init_database():
     db.drop_all()
     db.create_all()
     for i in range(0, 100):
-        db.session.add(User('用户 ' + str(i), 'a' + str(i)))
+        db.session.add(User('user' + str(i), str(i)))
         for j in range(0, 10):
             db.session.add(Image(get_image_url(), i + 1))
             for k in range(0, 3):

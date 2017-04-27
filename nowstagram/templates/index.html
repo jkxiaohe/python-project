@@ -21,32 +21,37 @@
                 </a>
             </div>
         </div>
-        <div class="mod-ft">
-            <ul class="discuss-list">
-                <li class="more-discuss">
+        <ul>
+            <li class="more-discuss">
                     <a>
                         <span>全部 </span><span class="">{{image.comments|length}}</span>
                         <span> 条评论</span></a>
                 </li>
+        </ul>
+        <div class="mod-ft">
+            <ul class="discuss-list js-discuss-list">
                 {% for comment in image.comments: %}
-                {% if loop.index > 2 %} {% break %} {% endif %}
-                <li>
+                {% if loop.index > 3 %} {% break %} {% endif %}
+                <li class="indexComment">
                     <!-- <a class=" icon-remove" title="删除评论"></a> -->
                     <a class="_4zhc5 _iqaka" title="zjuyxy" href="/profile/{{comment.user_id}}" data-reactid=".0.1.0.0.0.2.1.2:$comment-17856951190001917.1">{{comment.user.username}}</a>
-                    <span>
-                        <span>{{comment.content}}</span>
-                    </span>
+                    <span>{{comment.content}}</span>
                 </li>
                 {%endfor%}
             </ul>
             <section class="discuss-edit">
-                <form>
-                    <input placeholder="添加评论..." type="text">
-                </form>
-                <button class="more-info">提交</button>
+                    <input placeholder="添加评论..." id="jsCmt" type="text">
+                <button class="more-info" id="jsSubmit">提交</button>
             </section>
         </div>
     </article>
+    <script type="text/javascript">
+        window.imageId = {{ image.id }};
+    </script>
 {% endfor %}
 </div>
 {% endblock%}
+{% block js %}
+<script type="text/javascript" src="/static/js/jquery.js"></script>
+<script type="text/javascript" src="/static/js/indexDetail.js"></script>
+{% endblock %}
