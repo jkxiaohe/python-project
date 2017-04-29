@@ -4,12 +4,18 @@ from sqlalchemy import or_, and_
 from nowstagram import app, db
 from flask_script import Manager
 from nowstagram.models import User, Image, Comment
-import random
+import random,unittest,tests
 
 
 
 manager = Manager(app)
 
+@manager.command
+def run_test():
+    db.drop_all()
+    db.create_all()
+    tests = unittest.TestLoader().discover('./')
+    unittest.TextTestRunner().run(tests)
 
 def get_image_url():
     return 'http://images.nowcoder.com/head/' + str(random.randint(0, 1000)) + 'm.png'

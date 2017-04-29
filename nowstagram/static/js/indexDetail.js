@@ -14,7 +14,6 @@ $(function () {
         // 点击添加评论
         var bSubmit = false;
         $('#jsSubmit').on('click', function () {
-            alert('点了');
             var sCmt = $.trim(oCmtIpt.val());
             // 评论为空不能提交
             if (!sCmt) {
