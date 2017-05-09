@@ -3,56 +3,60 @@
 {% block css %}/static/styles/pages/index.css{% endblock%}
 {% block content %}
 <div class="page-main clearfix">
-{% for image in images: %}
-    <article class="mod">
-        <header class="mod-hd">
-            <time class="time">{{ image.created_date }}</time>
-            <a href="/profile/{{image.user.id}}" class="avatar">
-                <img src="{{image.user.head_url}}">
-            </a>
-            <div class="profile-info">
-                <a title="{{image.user.username}}" href="/profile/{{image.user.id}}">{{image.user.username}}</a>
+        {% for image in images: %}
+            <article class="mod">
+                <header class="mod-hd">
+                    <time class="time">{{ image.created_date }}</time>
+                    <a href="/profile/{{image.user.id}}" class="avatar">
+                        <img src="{{image.user.head_url}}">
+                    </a>
+                    <div class="profile-info">
+                        <a title="{{image.user.username}}" href="/profile/{{image.user.id}}">{{image.user.username}}</a>
+                    </div>
+                </header>
+                <div class="mod-bd">
+                    <div class="img-box">
+                        <a href="/image/{{image.id}}">
+                            <img src="{{image.url}}">
+                        </a>
+                    </div>
+                </div>
+                <ul>
+                    <li class="more-discuss">
+                            <a>
+                                <span>全部 </span><span class="">{{image.comments|length}}</span>
+                                <span> 条评论</span></a>
+                    </li>
+                </ul>
+                <div class="mod-ft">
+                    <ul class="discuss-list js-discuss-list">
+                        {% for comment in image.comments: %}
+                        {% if loop.index > 3 %} {% break %} {% endif %}
+                        <li class="indexComment">
+                            <!-- <a class=" icon-remove" title="删除评论"></a> -->
+                            <a class="_4zhc5 _iqaka" title="zjuyxy" href="/profile/{{comment.user_id}}" data-reactid=".0.1.0.0.0.2.1.2:$comment-17856951190001917.1">{{comment.user.username}}</a>
+                            <span>{{comment.content}}</span>
+                        </li>
+                        {%endfor%}
+                    </ul>
+                    <section class="discuss-edit">
+                            <input placeholder="添加评论..." id="jsCmt" type="text">
+                        <button class="more-info" id="jsSubmit">提交</button>
+                    </section>
+                </div>
+            </article>
+        <script type="text/javascript">
+           window.imageId = {{ image.id }};
+        </script>
+        {% endfor %}
+        {% if has_next %}
+            <div class="more-content js-load-more">
+                <a class="_oidfu" href="javascript:void(0);">更多</a>
             </div>
-        </header>
-        <div class="mod-bd">
-            <div class="img-box">
-                <a href="/image/{{image.id}}">
-                    <img src="{{image.url}}">
-                </a>
-            </div>
-        </div>
-        <ul>
-            <li class="more-discuss">
-                    <a>
-                        <span>全部 </span><span class="">{{image.comments|length}}</span>
-                        <span> 条评论</span></a>
-            </li>
-        </ul>
-        <div class="mod-ft">
-            <ul class="discuss-list js-discuss-list">
-                {% for comment in image.comments: %}
-                {% if loop.index > 3 %} {% break %} {% endif %}
-                <li class="indexComment">
-                    <!-- <a class=" icon-remove" title="删除评论"></a> -->
-                    <a class="_4zhc5 _iqaka" title="zjuyxy" href="/profile/{{comment.user_id}}" data-reactid=".0.1.0.0.0.2.1.2:$comment-17856951190001917.1">{{comment.user.username}}</a>
-                    <span>{{comment.content}}</span>
-                </li>
-                {%endfor%}
-            </ul>
-            <section class="discuss-edit">
-                    <input placeholder="添加评论..." id="jsCmt" type="text">
-                <button class="more-info" id="jsSubmit">提交</button>
-            </section>
-        </div>
-    </article>
-<script type="text/javascript">
-    window.imageId = {{ image.id }};
-</script>
-{% endfor %}
+        {% endif %}
 </div>
 {% endblock%}
 {% block js %}
-
 <script type="text/javascript" src="/static/js/jquery.js"></script>
 <script type="text/javascript" src="/static/js/indexDetail.js"></script>
 {% endblock %}
